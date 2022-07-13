@@ -1,0 +1,17 @@
+{
+  "family": "${family}",
+  "networkMode": "awsvpc",
+  "executionRoleArn": "${execution_role_arn}",
+  "taskRoleArn": "${execution_role_arn}",
+  "cpu": "${cpu}",
+  "memory": "${memory}",
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "volumes": [
+    {
+      "name": "tmp"
+    }
+  ],
+  "containerDefinitions": ${container_definitions}
+}

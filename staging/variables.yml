@@ -1,0 +1,61 @@
+region: "ap-northeast-1"
+name: "staging"
+hosts:
+  www:
+    deploy_branches:
+      - deploy/staging
+    bucket_name: "" # FIXME: 適切な S3 バケット名を決める
+    help_bucket_name: "" # FIXME: 適切な S3 バケット名を決める
+domain: "" # FIXME: 適切なドメイン名を決める
+vpc_cidr: "10.0.0.0/16"
+old_vpc_cidr: "" # staging には連携するべき旧環境が存在しない
+public_subnet_cidr_list:
+  - "10.0.0.0/24"
+  - "10.0.1.0/24"
+private_subnet_cidr_list:
+  - "10.0.10.0/24"
+  - "10.0.11.0/24"
+acm_arn:
+  - "" # FIXME: 適切な証明書のARNを記述する
+failover_acm_arn: "" # FIXME: 適切な証明書のARNを記述する
+rds:
+  instance_count: 2
+  instance_class: "db.t3.small"
+  max_connections: 1000
+elasti_cache:
+  node_type: "cache.t2.micro"
+es:
+  instance_type: "t3.small.elasticsearch"
+  ebs_volume_size: 10
+  az_count: 1
+  dedicated_master_enabled: false
+  dedicated_master_count: 3
+  dedicated_master_type: m5.large.elasticsearch
+ecs:
+  app_cpu: 1024
+  batch_cpu: 1024
+  app_memory: 2048
+  batch_memory: 2048
+  app_desired_count: 1
+  batch_desired_count: 1
+  asc_app_min_count: 1
+  asc_batch_min_count: 1
+  asc_app_max_count: 2
+  asc_batch_max_count: 2
+  asc_app_target: 30
+  asc_batch_target: 40
+  cpu_alert_app_threshold: 80
+  memory_alert_app_threshold: 85
+  cpu_alert_batch_threshold: 80
+  memory_alert_batch_threshold: 85
+  rails_max_threads: 12
+  rails_database_pool_app: 12
+  rails_database_pool_batch: 31
+use_basic_auth: true
+terraform_home: iac/staging/main
+synthetics_canary:
+  company: company
+  login_id: "001"
+  password: "" # FIXME: 適切なパスワードに置き換える
+  enable_alart: false
+lambda_endpoint: "" # FIXME: デプロイ通知用 Lambda エンドポイントを記載する

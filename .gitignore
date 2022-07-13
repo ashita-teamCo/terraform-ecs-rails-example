@@ -1,0 +1,8 @@
+*/**/.DS_Store
+
+*/**/.terraform
+*/**/dist
+*/maintenance/variables.tf
+
+.envrc
+.env

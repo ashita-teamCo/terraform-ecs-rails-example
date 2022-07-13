@@ -1,0 +1,12 @@
+region: "ap-northeast-1"
+name: development
+hosts:
+  www:
+    deploy_branches:
+      - deploy/development
+    bucket_name: "" # FIXME: 適切な S3 バケット名に置き換える
+    help_bucket_name: "" # FIXME: 適切な S3 バケット名に置き換える
+domain: "" # FIXME: 適切なドメイン名を決める
+acm_arn:
+  - "" # FIXME: 適切な証明書のARNを記述する
+failover_acm_arn: "" # FIXME: 適切な証明書のARNを記述する

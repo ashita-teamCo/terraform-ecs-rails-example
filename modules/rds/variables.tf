@@ -1,0 +1,14 @@
+variable "region" {}
+variable "name" {}
+variable "host" {}
+variable "vpc_id" {}
+variable "vpc_cidr_block" {}
+variable "old_vpc_cidr_block" {}
+variable "private_subnet_ids" {}
+variable "db_user" {}
+variable "instance_class" {}
+variable "instance_count" {}
+variable "max_connections" {}
+variable "az_list" {}
+variable "sns_topic" {}
+variable "suffix" {}

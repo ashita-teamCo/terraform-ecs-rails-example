@@ -1,0 +1,169 @@
+[
+  {
+    "name": "app",
+    "image": "${image}",
+    "linuxParameters": {
+      "initProcessEnabled": true
+    },
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${log_group_app}",
+        "awslogs-region": "${region}",
+        "awslogs-stream-prefix": "app"
+      }
+    },
+    "portMappings": [
+      {
+        "hostPort": 3000,
+        "protocol": "tcp",
+        "containerPort": 3000
+      }
+    ],
+    "mountPoints": [
+      {
+        "sourceVolume": "tmp",
+        "containerPath": "/app/tmp"
+      }
+    ],
+    "healthCheck": {
+      "command": [
+        "CMD-SHELL",
+        "test -f tmp/pid",
+        "|| exit 1"
+      ],
+      "interval": 30,
+      "timeout": 15,
+      "retries": 3
+    },
+    "environment": [
+      {
+        "name": "RAILS_ENV",
+        "value": "production"
+      },
+      {
+        "name": "RAILS_LOG_TO_STDOUT",
+        "value": "true"
+      },
+      {
+        "name": "RAILS_SERVE_STATIC_FILES",
+        "value": "true"
+      },
+      {
+        "name": "BASE_DOMAIN",
+        "value": "${base_domain}"
+      },
+      {
+        "name": "RAILS_MAX_THREADS",
+        "value": "${rails_max_threads}"
+      },
+      {
+        "name": "RAILS_DATABASE_POOL",
+        "value": "${rails_database_pool_app}"
+      }
+    ],
+    "secrets": [
+      {
+        "name": "SECRET_KEY_BASE",
+        "valueFrom": "${ssm_secret_key_base}"
+      },
+      {
+        "name": "MYSQL_USER_PASSWORD",
+        "valueFrom": "${ssm_database_password}"
+      },
+      {
+        "name": "DATABASE_URL_WRITER",
+        "valueFrom": "${ssm_database_url_writer}"
+      },
+      {
+        "name": "DATABASE_URL_READER",
+        "valueFrom": "${ssm_database_url_reader}"
+      },
+      {
+        "name": "ASSETS_URL",
+        "valueFrom": "${ssm_assets_url}"
+      },
+      {
+        "name": "REDIS_URL",
+        "valueFrom": "${ssm_redis_url}"
+      },
+      {
+        "name": "ELASTICSEARCH_URL",
+        "valueFrom": "${ssm_elasticsearch_url}"
+      },
+      {
+        "name": "S3_BUCKET_NAME",
+        "valueFrom": "${ssm_s3_bucket_name}"
+      },
+      {
+        "name": "S3_HELP_BUCKET_NAME",
+        "valueFrom": "${ssm_s3_help_bucket_name}"
+      },
+      {
+        "name": "DEVISE_SECRET_KEY",
+        "valueFrom": "${ssm_devise_secret_key}"
+      },
+      {
+        "name": "MAIL_TO_SYSTEM_ADMIN",
+        "valueFrom": "${ssm_mail_to_system_admin}"
+      },
+      {
+        "name": "SMTP_USERNAME",
+        "valueFrom": "${ssm_smtp_username}"
+      },
+      {
+        "name": "SMTP_PASSWORD",
+        "valueFrom": "${ssm_smtp_password}"
+      },
+      {
+        "name": "SMTP_DOMAIN",
+        "valueFrom": "${ssm_smtp_domain}"
+      },
+      {
+        "name": "SMTP_ADDRESS",
+        "valueFrom": "${ssm_smtp_address}"
+      }
+    ]
+  },
+  {
+    "name": "nginx",
+    "image": "${nginx_image}",
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${log_group_app}",
+        "awslogs-region": "${region}",
+        "awslogs-stream-prefix": "nginx"
+      }
+    },
+    "portMappings": [
+      {
+        "hostPort": 80,
+        "protocol": "tcp",
+        "containerPort": 80
+      }
+    ],
+    "mountPoints": [
+      {
+        "sourceVolume": "tmp",
+        "containerPath": "/app/tmp"
+      }
+    ],
+    "healthCheck": {
+      "command": [
+        "CMD-SHELL",
+        "service nginx status",
+        "|| exit 1"
+      ],
+      "interval": 30,
+      "timeout": 15,
+      "retries": 3
+    },
+    "dependsOn": [
+      {
+        "condition": "HEALTHY",
+        "containerName": "app"
+      }
+    ]
+  }
+]

@@ -1,0 +1,10 @@
+variable "name" {}
+variable "vpc_id" {}
+variable "public_subnet_ids" {}
+variable "host" {}
+variable "domain" {}
+variable "acm_arn" {}
+variable "use_basic_auth" {}
+variable "sns_topic" {}
+variable "logs_bucket" {}
+variable "suffix" {}
