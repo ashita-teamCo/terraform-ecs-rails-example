@@ -18,6 +18,12 @@ AWS 上に一般的な Web アプリケーションの構成を構築するた�
 
 また、設定ファイル上 `FIXME:` とコメントされている箇所についても必要に応じて設定が必要となる場合があります。
 
+## 参考記事
+
+本リポジトリにおける Terraform のモジュール構成については以下のブログ記事が参考になるかもしれません。
+
+- [Terraform のモジュール分割 - あしたのチーム Tech Blog](https://engineer.ashita-team.com/entry/terraform_modules)
+
 # terraform の実行
 
 make コマンドで実行が可能です。
